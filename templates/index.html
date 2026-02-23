@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>AI Voice Detector</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="/static/favicon.ico" />
+
+    <style>
+      /* ===== RESET ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #050607;
+        color: white;
+      }
+
+      /* ===== NAVBAR ===== */
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 40px;
+        flex-wrap: wrap;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: 600;
+        color: #7ef0e6;
+      }
+
+      .nav-links {
+        margin: 0 15px;
+        text-decoration: none;
+        color: black;
+        transition: 0.3s;
+        background: linear-gradient(135deg, #59e3d6, #7ef0e6);
+        padding: 10px 22px;
+        border-radius: 25px;
+        word-spacing: 20px;
+        margin-left: 250px;
+        font-weight: 700;
+        margin-between: 20px;
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-links a:hover {
+        color: white;
+      }
+
+      /* ===== HERO SECTION ===== */
+
+      .hero {
+        min-height: 75vh;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .hero h2 {
+        color: #7ef0e6;
+        font-weight: 400;
+        margin-bottom: 15px;
+        margin-top: 20px;
+      }
+
+      .hero h1 {
+        font-size: 48px;
+        max-width: 700px;
+        line-height: 1.3;
+        margin-bottom: 30px;
+      }
+
+      .cta-btn {
+        padding: 14px 35px;
+        border-radius: 30px;
+        border: none;
+        font-size: 18px;
+
+        color: black;
+        cursor: pointer;
+        background: linear-gradient(135deg, #59e3d6, #7ef0e6);
+        color: black;
+        transition: 0.3s;
+      }
+
+      .cta-btn:hover {
+        transform: scale(1.05);
+      }
+
+      /* ===== UPLOAD CARD ===== */
+
+      .upload-box {
+        margin-top: 60px;
+        background: #0c0f11;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px rgba(0, 255, 220, 0.08);
+        width: 90%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      input[type="file"] {
+        margin: 20px 0;
+        color: white;
+      }
+
+      .predict-btn {
+        padding: 10px 25px;
+        border: none;
+        border-radius: 20px;
+        background: #7ef0e6;
+        color: black;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .predict-btn:hover {
+        transform: scale(1.05);
+      }
+
+      #sb {
+        border: none;
+        margin: 20px 0;
+        padding: 3px 3px;
+        border-radius: 80px;
+
+        background: #7ef0e6;
+        color: black;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-right: 60px;
+        margin-bottom: 10px;
+      }
+
+      #sb:hover {
+        transform: scale(1.03);
+        box-shadow:
+          0 0 15px #6ee7d8,
+          0 0 30px #6ee7d8;
+      }
+
+      #st {
+        border: none;
+        padding: 3px 3px;
+        border-radius: 80px;
+        background: #ff0000;
+
+        color: black;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      #st:hover {
+        transform: scale(1.04);
+        box-shadow:
+          0 0 15px #ff0000,
+          0 0 30px #ff0000;
+      }
+
+      #audioFile {
+        border: none;
+        padding: 3px 3px;
+        border-radius: 80px;
+        background: #7ef0e6;
+
+        color: black;
+        cursor: pointer;
+        transition: 0.4s;
+        width: 80%;
+        max-width: 80%;
+      }
+
+      #audioFile:hover {
+        transform: scale(1.03);
+        box-shadow:
+          0 0 15px #6ee7d8,
+          0 0 30px #6ee7d8;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 22px;
+        color: #7ef0e6;
+      }
+
+      /* Tablet */
+      @media (max-width: 1024px) {
+        .hero h1 {
+          font-size: 38px;
+        }
+      }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        .navbar {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .nav-links {
+          margin-left: 0;
+          word-spacing: normal;
+        }
+
+        .hero h1 {
+          font-size: 30px;
+        }
+
+        .cta-btn {
+          font-size: 16px;
+          padding: 12px 28px;
+        }
+      }
+
+      /* Small Mobile */
+      @media (max-width: 480px) {
+        .hero h1 {
+          font-size: 24px;
+        }
+
+        .hero h2 {
+          font-size: 16px;
+        }
+
+        .cta-btn,
+        #sb,
+        #st,
+        .predict-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <div id="particles"></div>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <div class="navbar">
+      <div class="logo">VoiceGuard</div>
+
+      <div class="nav-links">
+        <a target="_blank">Home</a>
+        <a>Features</a>
+
+        <a>Live_Detection</a>
+      </div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+
+    <section class="hero">
+      <h2>Welcome to VoiceGuard</h2>
+
+      <h1>AI Voice Authenticity Detection System</h1>
+
+      <button class="cta-btn">Get Started</button>
+
+      <!-- Upload Section -->
+      <div class="upload-box">
+        <h3>Upload Audio File</h3>
+
+        <input type="file" id="audioFile" accept=".wav,.mp3" />
+        <br /><br />
+
+        <button id="sb" onclick="startRecording()">🎙️ Start Recording</button>
+        <button id="st" onclick="stopRecording()">⏹ Stop</button>
+        <br />
+        <audio id="player" controls></audio>
+        <br />
+
+        <button class="predict-btn" onclick="uploadFile()">Predict</button>
+
+        <div id="result"></div>
+      </div>
+    </section>
+
+    <script>
+      // ================= GLOBAL =================
+      let mediaRecorder;
+      let audioChunks = [];
+      let recordedBlob = null;
+
+      const fileInput = document.getElementById("audioFile");
+      const player = document.getElementById("player");
+
+      // ================= RECORD START =================
+      async function startRecording() {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+
+        mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "audio/webm",
+        });
+
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          audioChunks.push(e.data);
+        };
+
+        mediaRecorder.start();
+
+        document.getElementById("result").innerText = "🎙️ Recording...";
+      }
+
+      // ================= RECORD STOP =================
+      function stopRecording() {
+        mediaRecorder.stop();
+
+        mediaRecorder.onstop = async () => {
+          const webmBlob = new Blob(audioChunks, { type: "audio/webm" });
+
+          recordedBlob = await convertToWav(webmBlob);
+
+          const audioURL = URL.createObjectURL(recordedBlob);
+
+          player.src = audioURL;
+          player.load();
+
+          document.getElementById("result").innerText = "Recording ready!";
+        };
+      }
+
+      // ================= WEBM → WAV =================
+      async function convertToWav(blob) {
+        const arrayBuffer = await blob.arrayBuffer();
+
+        const audioCtx = new AudioContext();
+        const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+
+        const wavBuffer = encodeWAV(audioBuffer);
+
+        return new Blob([wavBuffer], { type: "audio/wav" });
+      }
+
+      function encodeWAV(audioBuffer) {
+        const samples = audioBuffer.getChannelData(0);
+        const buffer = new ArrayBuffer(44 + samples.length * 2);
+        const view = new DataView(buffer);
+
+        function writeString(view, offset, string) {
+          for (let i = 0; i < string.length; i++)
+            view.setUint8(offset + i, string.charCodeAt(i));
+        }
+
+        writeString(view, 0, "RIFF");
+        view.setUint32(4, 36 + samples.length * 2, true);
+        writeString(view, 8, "WAVE");
+        writeString(view, 12, "fmt ");
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true);
+        view.setUint16(22, 1, true);
+        view.setUint32(24, 44100, true);
+        view.setUint32(28, 44100 * 2, true);
+        view.setUint16(32, 2, true);
+        view.setUint16(34, 16, true);
+        writeString(view, 36, "data");
+        view.setUint32(40, samples.length * 2, true);
+
+        let offset = 44;
+        for (let i = 0; i < samples.length; i++, offset += 2) {
+          const s = Math.max(-1, Math.min(1, samples[i]));
+          view.setInt16(offset, s * 0x7fff, true);
+        }
+
+        return buffer;
+      }
+
+      // ================= FILE PREVIEW =================
+      fileInput.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+          const audioURL = URL.createObjectURL(file);
+          player.src = audioURL;
+          player.load();
+        }
+      });
+
+      // ================= PREDICT =================
+      async function uploadFile() {
+        let formData = new FormData();
+
+        if (fileInput.files[0]) {
+          formData.append("file", fileInput.files[0]);
+        } else if (recordedBlob) {
+          formData.append("file", recordedBlob, "recorded.wav");
+        } else {
+          alert("Upload or record audio first!");
+          return;
+        }
+
+        document.getElementById("result").innerText = "Analyzing Voice...";
+
+        const response = await fetch("/predict", {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        document.getElementById("result").innerText =
+          `Result: ${data.result} (${data.confidence}% confidence)`;
+      }
+
+      tsParticles.load("particles", {
+        particles: {
+          number: { value: 40 },
+          move: { enable: true, speed: 1 },
+          links: { enable: true, color: "#6ee7d8" },
+        },
+      });
+    </script>
+  </body>
+</html>

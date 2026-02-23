@@ -1,0 +1,20 @@
+<<<<<<< HEAD
+flask
+numpy
+librosa
+scikit-learn
+joblib
+gunicorn
+soundfile
+numba
+=======
+flask
+numpy
+librosa
+scikit-learn
+joblib
+gunicorn
+soundfile
+numba
+>>>>>>> 90a8cdb341213bdd80c1e501ec3f43d70d36381a
+llvmlite
