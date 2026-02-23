@@ -1,7 +1,9 @@
-Flask
-gunicorn
+flask
 numpy
 librosa
-scikit-learn
 joblib
+scikit-learn
+gunicorn
 soundfile
+audioread
+ffmpeg-python
